@@ -20,12 +20,12 @@ export default function OncePaymentForm() {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "Vidur",
-      lastName: "Ratna",
-      email: "vidur_ratna@yahoo.co.nz",
-      phone: "+64 21 161 0812",
-      eventName: "Camp 2022",
-      amount: 5,
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      eventName: "",
+      amount: 20,
       fee: false,
       card: "",
     },
