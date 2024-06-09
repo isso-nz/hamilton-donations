@@ -29,7 +29,7 @@ export default function Home() {
               Go back home
             </div>
           </Link>
-          <h1 className="text-3xl font-bold mb-2">Once off donation</h1>
+          <h1 className="text-3xl font-bold mb-2">One Off donation</h1>
           <p className="max-w-[400px]">You can make a one off donation to a seva or an event, just fill out the reason for donation </p>
           <div className="flex justify-center gap-4 pt-6">
           <Elements stripe={stripePromise}>
