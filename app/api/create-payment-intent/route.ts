@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
       metadata: meta,
       receipt_email: meta.email,
       description: description,
+      customer: meta.customer_id,
     });
 
     return new NextResponse(paymentIntent.client_secret, { status: 200 });
