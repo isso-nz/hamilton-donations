@@ -10,7 +10,8 @@ export async function GET(req: NextRequest) {
   try {
 
     const products = await stripe.products.list({
-        limit: 100
+        limit: 100,
+        active: true
     });
 
     const prices = await stripe.prices.list({
