@@ -7,7 +7,7 @@ import Image from "next/image";
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
   );
-  
+
 export default function Home() {
   return (
     <main className="relative h-screen">
@@ -37,7 +37,7 @@ export default function Home() {
             <RegularPaymentForm />
           </Elements>
           </div>
-          <p className="max-w-[400px] pt-6">If you have already made a donation/need to cancel, please contact <a className="font-bold" href="mailto:vidur.ratna@nndym.org">vidur.ratna@nndym.org</a></p>
+          <p className="max-w-[400px] pt-6">If you have already made a donation/need to cancel, please contact <a className="font-bold" href="mailto:hamilton.mandir@nndym.org">hamilton.mandir@nndym.org</a></p>
         </div>
       </div>
     </main>
