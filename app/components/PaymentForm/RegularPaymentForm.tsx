@@ -81,10 +81,10 @@ export default function OncePaymentForm() {
 
 
   const initialValues = {
-    firstName: "Vidur",
-    lastName: "Ratna",
-    email: "vidur_ratna@testing.com",
-    phone: "+64 21 123 12456",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
     reason: "",
     otherReason: "",
     amount: "",
