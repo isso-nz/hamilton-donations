@@ -3,27 +3,41 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import RegularPaymentForm from "../components/PaymentForm/RegularPaymentForm";
 import Link from "next/link";
+import Image from "next/image";
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
   );
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
-      <Link 
-          href={"/"}
-        >
-        <div className=" mb-8 hover:bg-blue-100 text-blue-500 font-bold py-2 px-4 rounded">
-          Go back home
-        </div>
-      </Link>
-      <div className="flex justify-center flex-col text-center gap-4">
-        <h1 className="text-4xl font-bold">Regular donation</h1>
-        <p>You can make a regular donations to a seva or an event, select from the options below </p>
-      </div>
-      <div className="flex justify-center gap-4 pt-12">
-        <Elements stripe={stripePromise}>
+    <main className="relative h-screen">
+      <Image
+        src="/isso_ham_1.jpeg"
+        alt="Picture of the girl holding god's idol"
+        style={
+          {
+            objectFit: "cover"
+          }
+        }
+        fill
+      />
+      <div className="z-50 absolute left-0 top-0 flex justify-center flex-col items-center h-full">
+        <div className="bg-white p-8 md:p-16 rounded-md mx-4 md:ml-8 lg:ml-20 shadow-md flex flex-col items-start">
+          <Link 
+            href={"/"}
+          >
+            <div className=" mb-4 bg-blue-100 hover:bg-blue-300 text-black font-bold py-2 px-4 rounded">
+              Go back home
+            </div>
+          </Link>
+          <h1 className="text-3xl font-bold mb-2">Regular donation</h1>
+          <p className="max-w-[400px]">ou can make a regular donations to a seva or an event, select from the options below</p>
+          <div className="flex justify-center gap-4 pt-6">
+          <Elements stripe={stripePromise}>
             <RegularPaymentForm />
-        </Elements>
+          </Elements>
+          </div>
+          <p className="max-w-[400px] pt-6">If you have already made a donation/need to cancel, please contact <a className="font-bold" href="mailto:vidur.ratna@nndym.org">vidur.ratna@nndym.org</a></p>
+        </div>
       </div>
     </main>
   );
