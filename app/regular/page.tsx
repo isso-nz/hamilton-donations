@@ -7,11 +7,12 @@ import Image from "next/image";
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
   );
+  
 export default function Home() {
   return (
     <main className="relative h-screen">
       <Image
-        src="/isso_ham_1.jpeg"
+        src="/isso_ham_1.jpg"
         alt="Picture of the girl holding god's idol"
         style={
           {
@@ -42,3 +43,4 @@ export default function Home() {
     </main>
   );
 }
+
