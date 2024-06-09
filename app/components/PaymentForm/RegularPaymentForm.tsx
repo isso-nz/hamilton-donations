@@ -7,7 +7,7 @@ import React from "react";
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation'
 
-const productCodes:any = {
+const productCodesDev:any = {
     aarti : {
         id:"prod_QDpRyeiqW2n4un",
         name: "Aarti",
@@ -39,6 +39,46 @@ const productCodes:any = {
             70: "price_1PPZSRE3LNyFbiNyJzsyveWy"
         }
     }
+}
+
+const productCodesLive:any = {
+    aarti : {
+        id:"prod_QDpRyeiqW2n4un",
+        name: "Aarti",
+        description: "Hamilton Mandir Weekly Aarti Contribution",
+        weekly: {
+            5: "price_1POb3CE3LNyFbiNyubLbFK8b",
+            10: "price_1POb3CE3LNyFbiNyYgsVIUqc",
+            15: "price_1POb3CE3LNyFbiNyXE0M4Mpl",
+            20: "price_1POb3CE3LNyFbiNyUhbVCwNJ"
+        },
+        monthly: {
+            30: "price_1POb3CE3LNyFbiNyi45KpQst",
+            40: "price_1POb3CE3LNyFbiNy4egjWokY",
+            50: "price_1POb3CE3LNyFbiNy3O1QntfO"
+        }
+    },
+    camp2024: {
+        id:"prod_QDpHSHHkpdxHqn",
+        name: "Camp 2024 Donation Fund",
+        description: "Hamilton Mandir Donation towards Camp 2024",
+        weekly: {
+            10: "price_1PPZTfE3LNyFbiNyIR9frqzM",
+            15: "price_1PPZTfE3LNyFbiNylqKP21gP",
+            30: "price_1PPZTfE3LNyFbiNyetcFizXD"
+        },
+        monthly: {
+            30: "price_1PPZTfE3LNyFbiNyB36CiGPu",
+            50: "price_1PPZTfE3LNyFbiNyyG1L20N0",
+            70: "price_1PPZTfE3LNyFbiNy6TJssn6y"
+        }
+    }
+}
+
+let productCodes = productCodesDev;
+
+if (process.env.NODE_ENV === 'production') {
+    productCodes = productCodesLive;
 }
 
 const validationSchema =  Yup.object({
