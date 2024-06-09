@@ -24,13 +24,13 @@ export default function Home() {
             height={70}
           />
           <h1 className="text-3xl font-bold mb-2">ISSO Hamilton</h1>
-          <p className="max-w-[400px]">Do you want to donate once off for an event or repeatedly donate towards a seva? </p>
+          <p className="max-w-[400px]">Do you want to donate one off for an event or repeatedly donate towards a seva? </p>
           <div className="">
             <Link 
               href={"/once"}
             >
               <div className="bg-blue-500 hover:bg-blue-700 text-white text-center font-bold py-2 px-4 rounded mt-4">
-                Donate Once Off
+                Donate One Off
               </div>
             </Link>
             <Link 
