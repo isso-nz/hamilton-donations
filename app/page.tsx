@@ -15,13 +15,13 @@ export default function Home() {
             Donate Once Off
           </div>
         </Link>
-        {/* <Link 
+        <Link 
           href={"/regular"}
         >
           <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Regular Donation
           </div>
-        </Link> */}
+        </Link>
       </div>
     </main>
   );
