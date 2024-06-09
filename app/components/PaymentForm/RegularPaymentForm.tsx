@@ -196,7 +196,7 @@ export default function OncePaymentForm() {
     >
         {(props: FormikProps<any> ) => (
             <Form
-                className="max-w-screen-sm w-screen flex gap-3 flex-col px-5"
+                className=" flex gap-3 flex-col"
             >
                 {props.isSubmitting ? 
                     <div className="flex items-center p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 " role="alert">
