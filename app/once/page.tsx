@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main className="relative h-screen">
       <Image
-        src="/isso_ham_1.jpeg"
+        src="/isso_ham_1.jpg"
         alt="Picture of the girl holding god's idol"
         style={
           {

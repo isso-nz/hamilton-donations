@@ -3,82 +3,49 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { Field, Form, Formik, FormikProps, useFormik } from "formik";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation'
 
-const productCodesDev:any = {
-    aarti : {
-        id:"prod_QDpRyeiqW2n4un",
-        name: "Aarti",
-        description: "Hamilton Mandir Weekly Aarti Contribution",
-        weekly: {
-            5: "price_1POb1yE3LNyFbiNyRILXo9f7",
-            10: "price_1POb36E3LNyFbiNyb6zeCFbk",
-            15: "price_1POb36E3LNyFbiNyxuz9kMK5",
-            20: "price_1POb36E3LNyFbiNyfAZC09aZ"
-        },
-        monthly: {
-            30: "price_1POb36E3LNyFbiNydqDxRHnk",
-            40: "price_1POb36E3LNyFbiNyftAa0sDh",
-            50: "price_1POb36E3LNyFbiNybpn7C0mm"
-        }
-    },
-    camp2024: {
-        id:"prod_QDpHSHHkpdxHqn",
-        name: "Camp 2024 Donation Fund",
-        description: "Hamilton Mandir Donation towards Camp 2024",
-        weekly: {
-            10: "price_1PPZRtE3LNyFbiNycBlF4naG",
-            15: "price_1PPZS5E3LNyFbiNyDpqY9hz0",
-            30: "price_1PPZSCE3LNyFbiNy3vBiB8RC"
-        },
-        monthly: {
-            30: "price_1PPZSJE3LNyFbiNyL8nAG6Ua",
-            50: "price_1PPZSNE3LNyFbiNyQQX8l6Kg",
-            70: "price_1PPZSRE3LNyFbiNyJzsyveWy"
-        }
-    }
-}
+const formatProducts = (data:any) => {
+    let products = data.data;
 
-const productCodesLive:any = {
-    aarti : {
-        id:"prod_QDpRyeiqW2n4un",
-        name: "Aarti",
-        description: "Hamilton Mandir Weekly Aarti Contribution",
-        weekly: {
-            5: "price_1POb3CE3LNyFbiNyubLbFK8b",
-            10: "price_1POb3CE3LNyFbiNyYgsVIUqc",
-            15: "price_1POb3CE3LNyFbiNyXE0M4Mpl",
-            20: "price_1POb3CE3LNyFbiNyUhbVCwNJ"
-        },
-        monthly: {
-            30: "price_1POb3CE3LNyFbiNyi45KpQst",
-            40: "price_1POb3CE3LNyFbiNy4egjWokY",
-            50: "price_1POb3CE3LNyFbiNy3O1QntfO"
-        }
-    },
-    camp2024: {
-        id:"prod_QDpHSHHkpdxHqn",
-        name: "Camp 2024 Donation Fund",
-        description: "Hamilton Mandir Donation towards Camp 2024",
-        weekly: {
-            10: "price_1PPZTfE3LNyFbiNyIR9frqzM",
-            15: "price_1PPZTfE3LNyFbiNylqKP21gP",
-            30: "price_1PPZTfE3LNyFbiNyetcFizXD"
-        },
-        monthly: {
-            30: "price_1PPZTfE3LNyFbiNyB36CiGPu",
-            50: "price_1PPZTfE3LNyFbiNyyG1L20N0",
-            70: "price_1PPZTfE3LNyFbiNy6TJssn6y"
-        }
-    }
-}
+    let _products:any = [];
+    // foreach product format the prices like above
+    products.forEach((product:any) => {
+        let _product:any = {};
+        _product["id"] = product.id;
+        _product["name"] = product.name;
+        _product["description"] = product.description;
+        _product["Weekly"] = {};
+        _product["Monthly"] = {};
+        _product['Fortnightly'] = {};
 
-let productCodes = productCodesDev;
+        // weekly prices
+        product.prices.forEach((price:any) => {
+            if(price.recurring.interval === "week") {
+                if(price.recurring.interval_count === 2) {
+                    _product["Fortnightly"][price.unit_amount / 100] = price.id;
+                } else {
+                    _product["Weekly"][price.unit_amount / 100] = price.id;
+                }
+            }
+        });
 
-if (process.env.NODE_ENV === 'production') {
-    productCodes = productCodesLive;
+        // monthly prices
+        product.prices.forEach((price:any) => {
+            if(price.recurring.interval === "month") {
+                _product["Monthly"][price.unit_amount / 100] = price.id;
+            }
+        });
+
+        _products.push(_product);
+    });
+
+    return _products;
+
+    
+    
 }
 
 const validationSchema =  Yup.object({
@@ -91,13 +58,41 @@ const validationSchema =  Yup.object({
     amount: Yup.string().required("Please select an amount"),
 })
 
-//get all the causes from the productCodes.names
-const causes = Object.keys(productCodes).map((key) => {
-    return {
-        value: key,
-        label: productCodes[key].name
-    }
-})
+const displayCauses = (products:any) => {
+
+    return products.map((product:any) => {
+        // eslint-disable-next-line react/jsx-key
+        return <option value={product.id}>{product.name}</option>
+    })
+
+}
+
+const displayFrequencies = (products:any, cause:any) => {
+    
+        let product = products.filter((product:any) => product.id === cause)[0];
+        let frequencies = Object.keys(product);
+        return frequencies.map((frequency:any) => {
+
+            if(frequency === "id" || frequency === "name" || frequency === "description") {
+                return;
+            }
+
+            // eslint-disable-next-line react/jsx-key
+            return <option value={frequency}>{frequency}</option>
+        })
+}
+
+const displayPrices = (products:any, cause:any, frequency:any) => {
+    let product = products.filter((product:any) => product.id === cause)[0];
+    let prices = product[frequency];
+
+    //prices is an object
+    return Object.keys(prices).map((price:any) => {
+        // eslint-disable-next-line react/jsx-key
+        return <option value={prices[price]}>{price}</option>
+    })
+
+}
 
 const displayErrors = (errors:any) => {
 
@@ -116,9 +111,10 @@ const displayErrors = (errors:any) => {
 export default function OncePaymentForm() {
   const stripe = useStripe();
   const elements = useElements();
+  const [loading, setLoading] = useState(true)
+  const [products, setProducts] = useState([])
 
   const router = useRouter();
-
 
   const initialValues = {
     firstName: "",
@@ -132,6 +128,22 @@ export default function OncePaymentForm() {
     fee: false,
     card: "",
   };
+
+  useMemo(
+    () => {
+        const { data }:any = axios.get("/api/get-product").then((response) => {
+            let _data = formatProducts(response.data);
+            console.log("test",_data);
+            setProducts(_data);
+            setLoading(false);
+        });
+    },
+    []
+  );
+
+  if(loading) {
+        return <div className="animate-pulse">Loading...</div>
+  }
 
   return (
     <Formik
@@ -252,10 +264,7 @@ export default function OncePaymentForm() {
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 >
                     <option value="">Select a cause</option>
-                    {causes.map((cause) => (
-                        // eslint-disable-next-line react/jsx-key
-                        <option value={cause.value}>{cause.label}</option>
-                    ))}
+                    {!loading && displayCauses(products)}
                 </Field>
                 <span
                     className=" h-0.5 bg-gray-300 rounded-md block"
@@ -267,8 +276,7 @@ export default function OncePaymentForm() {
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 >
                     <option value="">Select a frequency</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
+                    {!loading && displayFrequencies(products, props.values.reason)}
                 </Field>}
                 {props.values.reason && props.values.frequency && 
                 <Field 
@@ -277,10 +285,7 @@ export default function OncePaymentForm() {
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 >
                     <option value="">Select an amount</option>
-                    {props.values.frequency && props.values.reason && Object.keys(productCodes[props.values.reason][props.values.frequency]).map((amount) => (
-                        // eslint-disable-next-line react/jsx-key
-                        <option value={productCodes[props.values.reason][props.values.frequency][amount]}>{amount}</option>
-                    ))}
+                    {props.values.frequency && props.values.reason && !loading && displayPrices(products, props.values.reason, props.values.frequency)}
                 </Field>}
                 <CardElement
                   className="bg-gray-50 border disabled:opacity-50 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
