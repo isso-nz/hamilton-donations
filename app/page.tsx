@@ -1,31 +1,23 @@
 import Image from 'next/image'
 import Link from 'next/link'
+
 import { Button } from './components/ui'
+import { Footer } from './components/footer'
+import { Header } from './components/header'
 
 export default function Home() {
   return (
     <>
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <Image
-          src="/isso-logo.svg"
-          alt="ISSO New Zealand Logo"
-          className="mx-auto h-16 w-auto"
-          width={64}
-          height={64}
-        />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-zinc-900">
-          ISSO Hamilton
-        </h2>
-      </div>
+      <Header />
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <p className="text-center text-sm text-zinc-700">
-          Do you want to donate one off for an event or repeatedly donate
-          towards a seva?{' '}
+        <p className="text-center text-base text-zinc-700 sm:text-sm">
+          Would you like to make a one-time donation for an event, or contribute
+          regularly to a seva or event?
         </p>
         <div className="mt-6 space-y-4">
           <Button className="w-full" asChild>
-            <Link href={'/once'}>One off donation</Link>
+            <Link href="/one-time">One-time donation</Link>
           </Button>
 
           <p className="text-center text-xs font-semibold uppercase text-zinc-500">
@@ -33,18 +25,11 @@ export default function Home() {
           </p>
 
           <Button variant="primary" className="w-full" asChild>
-            <Link href={'/regular'}>Regular donation</Link>
+            <Link href="/regular">Regular donation</Link>
           </Button>
         </div>
-        <p className="mt-6 text-center text-sm text-zinc-600">
-          If you have already made a donation/need to cancel, please contact{' '}
-          <a
-            className="font-bold hover:underline"
-            href="mailto:hamilton.mandir@nndym.org"
-          >
-            hamilton.mandir@nndym.org
-          </a>
-        </p>
+
+        <Footer />
       </div>
     </>
   )
