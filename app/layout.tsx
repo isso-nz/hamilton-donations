@@ -1,22 +1,34 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Montserrat } from 'next/font/google'
+import cn from 'clsx'
 
-const inter = Inter({ subsets: ["latin"] });
+import './globals.css'
+
+const inter = Montserrat({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+})
+
+interface LayoutProps {
+  children: React.ReactNode
+}
 
 export const metadata: Metadata = {
-  title: "ISSO Hamilton",
-  description: "ISSO Hamilton",
-};
+  title: {
+    default: 'ISSO Hamilton',
+    template: '%s | ISSO Hamilton',
+  },
+  description: 'ISSO Hamilton',
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: LayoutProps) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="h-full antialiased">
+      <body className={cn(inter.className, 'h-full')}>
+        <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+          {children}
+        </div>
+      </body>
     </html>
-  );
+  )
 }
