@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { Montserrat } from 'next/font/google'
+import { DM_Sans } from 'next/font/google'
 import cn from 'clsx'
 
 import './globals.css'
 
-const inter = Montserrat({
+const inter = DM_Sans({
   weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
 })
