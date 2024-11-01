@@ -1,9 +1,10 @@
 'use client'
 
-import { ChangeEventHandler, useState, useTransition } from 'react'
+import { useState, useTransition } from 'react'
 
 import { createCheckoutSession } from '@/actions/stripe'
 import { CURRENCY, MAX_AMOUNT, MIN_AMOUNT } from '@/config'
+import { donationTypes } from '@/config/donations'
 import { formatAmountForDisplay } from '@/utils/stripe'
 
 import {
@@ -57,7 +58,27 @@ export function RegularDonationForm() {
       <form action={submitAction}>
         <input type="hidden" name="form" value="regular" />
         <input type="hidden" name="type" value="subscription" />
-        <div className="space-y-4">
+        <div className="space-y-6 sm:space-y-4">
+          <Field>
+            <Label htmlFor="reason" required>
+              Donation type
+            </Label>
+            <Select name="reason" required>
+              <SelectTrigger id="reason">
+                <SelectValue placeholder="Select the type of donation you wish to make" />
+              </SelectTrigger>
+              <SelectContent>
+                {donationTypes
+                  .filter((option) => option.recurring)
+                  .map((option) => (
+                    <SelectItem key={option.name} value={option.name}>
+                      {option.name}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
+          </Field>
+
           <Field>
             <Label htmlFor="frequency" required>
               Frequency
@@ -66,6 +87,7 @@ export function RegularDonationForm() {
               name="frequency"
               value={frequency}
               onValueChange={(value) => setFrequency(value as any)}
+              required
             >
               <SelectTrigger id="frequency">
                 <SelectValue placeholder="How frequently would you like to donate" />
