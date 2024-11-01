@@ -65,7 +65,7 @@ export function RegularDonationForm() {
             </Label>
             <Select name="reason" required>
               <SelectTrigger id="reason">
-                <SelectValue placeholder="Select the type of donation you wish to make" />
+                <SelectValue placeholder="Type of donation you wish to make" />
               </SelectTrigger>
               <SelectContent>
                 {donationTypes
