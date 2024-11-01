@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEventHandler, useState } from 'react'
+import { ChangeEventHandler, useState, useTransition } from 'react'
 
 import { createCheckoutSession } from '@/actions/stripe'
 import { CURRENCY, MAX_AMOUNT, MIN_AMOUNT } from '@/config'
@@ -12,7 +12,8 @@ export function OneTimeDonationForm() {
   const [input, setInput] = useState({
     amount: MIN_AMOUNT,
   })
-  const [loading, setLoading] = useState<boolean>(false)
+
+  const [isPending, startTransition] = useTransition()
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setInput({
@@ -21,16 +22,16 @@ export function OneTimeDonationForm() {
     })
   }
 
-  async function formAction(data: FormData): Promise<void> {
-    setLoading(true)
-
-    const { url } = await createCheckoutSession(data)
-    window.location.assign(url as string)
+  async function submitAction(data: FormData): Promise<void> {
+    startTransition(async () => {
+      const { url } = await createCheckoutSession(data)
+      window.location.assign(url as string)
+    })
   }
 
   return (
     <div className="flex w-full flex-col space-y-4">
-      <form action={formAction}>
+      <form action={submitAction}>
         <input type="hidden" name="form" value="one-time" />
         <input type="hidden" name="type" value="payment" />
         <div>
@@ -56,7 +57,7 @@ export function OneTimeDonationForm() {
         </div>
 
         <div className="mt-6">
-          <Button type="submit" variant="primary" className="w-full" disabled={loading}>
+          <Button type="submit" variant="primary" className="w-full" disabled={isPending}>
             {`Donate ${formatAmountForDisplay(input.amount, CURRENCY)}`}
           </Button>
         </div>
