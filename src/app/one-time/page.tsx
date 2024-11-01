@@ -1,24 +1,16 @@
 import { OneTimeDonationForm } from '@/components/forms'
-import { Footer } from '@/components/footer'
-import { Header } from '@/components/header'
 
 export default function OneTimeDonation() {
   return (
     <>
-      <Header title="One-time donation" />
+      <p className="text-center text-base text-zinc-700 sm:text-sm">
+        You can choose to make a one-time donation to a seva or an event. Please set your donation
+        amount below.
+      </p>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <p className="text-center text-base text-zinc-700 sm:text-sm">
-          You can choose to make a one-time donation to a seva or an event. Please set your donation
-          amount below.
-        </p>
-
-        <div className="mt-6 space-y-4">
-          <div className="flex justify-center gap-4 pt-6">
-            <OneTimeDonationForm />
-          </div>
-
-          <Footer />
+      <div className="mt-6 space-y-4">
+        <div className="flex justify-center gap-4 pt-6">
+          <OneTimeDonationForm />
         </div>
       </div>
     </>
