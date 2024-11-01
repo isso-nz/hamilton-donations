@@ -4,20 +4,11 @@ import { useState, useTransition } from 'react'
 
 import { createCheckoutSession } from '@/actions/stripe'
 import { CURRENCY, MAX_AMOUNT, MIN_AMOUNT } from '@/config'
-import { donationTypes } from '@/config/donations'
 import { formatAmountForDisplay } from '@/utils/stripe'
 
-import {
-  Button,
-  Field,
-  Input,
-  Label,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui'
+import { Button, Field, Input, Label } from '@/components/ui'
+
+import { DonationType } from './donation-type'
 
 export function OneTimeDonationForm() {
   const [amount, setAmount] = useState<number>(MIN_AMOUNT)
@@ -37,23 +28,7 @@ export function OneTimeDonationForm() {
         <input type="hidden" name="form" value="one-time" />
         <input type="hidden" name="type" value="payment" />
         <div className="space-y-6 sm:space-y-4">
-          <Field>
-            <Label htmlFor="reason" required>
-              Donation type
-            </Label>
-            <Select name="reason" required>
-              <SelectTrigger id="reason">
-                <SelectValue placeholder="Select the type of donation you wish to make" />
-              </SelectTrigger>
-              <SelectContent>
-                {donationTypes.map((option) => (
-                  <SelectItem key={option.name} value={option.name}>
-                    {option.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </Field>
+          <DonationType form="one-time" />
 
           <Field>
             <Label htmlFor="amount" required>
