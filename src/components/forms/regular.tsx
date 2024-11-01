@@ -4,7 +4,6 @@ import { useState, useTransition } from 'react'
 
 import { createCheckoutSession } from '@/actions/stripe'
 import { CURRENCY, MAX_AMOUNT, MIN_AMOUNT } from '@/config'
-import { donationTypes } from '@/config/donations'
 import { formatAmountForDisplay } from '@/utils/stripe'
 
 import {
@@ -18,6 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui'
+
+import { DonationType } from './donation-type'
 
 type DonationFrequency = 'day' | 'week' | 'month' | 'year'
 
@@ -59,25 +60,7 @@ export function RegularDonationForm() {
         <input type="hidden" name="form" value="regular" />
         <input type="hidden" name="type" value="subscription" />
         <div className="space-y-6 sm:space-y-4">
-          <Field>
-            <Label htmlFor="reason" required>
-              Donation type
-            </Label>
-            <Select name="reason" required>
-              <SelectTrigger id="reason">
-                <SelectValue placeholder="Type of donation you wish to make" />
-              </SelectTrigger>
-              <SelectContent>
-                {donationTypes
-                  .filter((option) => option.recurring)
-                  .map((option) => (
-                    <SelectItem key={option.name} value={option.name}>
-                      {option.name}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
-          </Field>
+          <DonationType form="regular" />
 
           <Field>
             <Label htmlFor="frequency" required>
