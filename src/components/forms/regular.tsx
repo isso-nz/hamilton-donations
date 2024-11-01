@@ -1,21 +1,24 @@
 'use client'
 
-import { ChangeEventHandler, useState } from 'react'
+import { ChangeEventHandler, useState, useTransition } from 'react'
 
 import { createCheckoutSession } from '@/actions/stripe'
 import { CURRENCY, MAX_AMOUNT, MIN_AMOUNT } from '@/config'
 import { formatAmountForDisplay } from '@/utils/stripe'
 
-import { Button, Field, Input, Label } from '@/components/ui'
+import {
+  Button,
+  Field,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui'
 
 type DonationFrequency = 'day' | 'week' | 'month' | 'year'
-
-const frequencyAdverb: Record<DonationFrequency, string> = {
-  day: 'daily',
-  week: 'weekly',
-  month: 'monthly',
-  year: 'yearly',
-}
 
 const frequencyOptions: { [key in DonationFrequency]: { value: key; label: string } } = {
   day: {
@@ -37,32 +40,21 @@ const frequencyOptions: { [key in DonationFrequency]: { value: key; label: strin
 }
 
 export function RegularDonationForm() {
-  const [input, setInput] = useState<{
-    amount: number
-    frequency: DonationFrequency
-  }>({
-    amount: MIN_AMOUNT,
-    frequency: 'month',
-  })
-  const [loading, setLoading] = useState<boolean>(false)
+  const [amount, setAmount] = useState<number>(MIN_AMOUNT)
+  const [frequency, setFrequency] = useState<DonationFrequency>('month')
 
-  const handleInputChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = (e) => {
-    setInput({
-      ...input,
-      [e.currentTarget.name]: e.currentTarget.value,
+  const [isPending, startTransition] = useTransition()
+
+  async function submitAction(data: FormData): Promise<void> {
+    startTransition(async () => {
+      const { url } = await createCheckoutSession(data)
+      window.location.assign(url as string)
     })
-  }
-
-  async function formAction(data: FormData): Promise<void> {
-    setLoading(true)
-
-    const { url } = await createCheckoutSession(data)
-    window.location.assign(url as string)
   }
 
   return (
     <div className="flex w-full flex-col space-y-4">
-      <form action={formAction}>
+      <form action={submitAction}>
         <input type="hidden" name="form" value="regular" />
         <input type="hidden" name="type" value="subscription" />
         <div className="space-y-4">
@@ -70,18 +62,22 @@ export function RegularDonationForm() {
             <Label htmlFor="frequency" required>
               Frequency
             </Label>
-            <select
-              id="frequency"
+            <Select
               name="frequency"
-              value={input.frequency}
-              onChange={handleInputChange}
+              value={frequency}
+              onValueChange={(value) => setFrequency(value as any)}
             >
-              {Object.values(frequencyOptions).map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger id="frequency">
+                <SelectValue placeholder="How frequently would you like to donate" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.values(frequencyOptions).map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </Field>
 
           <Field>
@@ -94,8 +90,8 @@ export function RegularDonationForm() {
                 type="number"
                 id="amount"
                 name="amount"
-                value={input.amount}
-                onChange={handleInputChange}
+                value={amount}
+                onChange={(event) => setAmount(Number(event.currentTarget.value))}
                 min={MIN_AMOUNT}
                 max={MAX_AMOUNT}
                 placeholder="Amount to donate"
@@ -106,8 +102,8 @@ export function RegularDonationForm() {
         </div>
 
         <div className="mt-6">
-          <Button type="submit" variant="primary" className="w-full" disabled={loading}>
-            {`Donate ${formatAmountForDisplay(input.amount, CURRENCY)} ${frequencyAdverb[input.frequency]}`}
+          <Button type="submit" variant="primary" className="w-full" disabled={isPending}>
+            {`Donate ${formatAmountForDisplay(amount, CURRENCY)} per ${frequency}`}
           </Button>
         </div>
       </form>
