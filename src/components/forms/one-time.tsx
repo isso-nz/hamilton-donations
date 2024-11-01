@@ -36,7 +36,7 @@ export function OneTimeDonationForm() {
         <div>
           <Field>
             <Label htmlFor="amount" required>
-              Donation amount
+              Amount
             </Label>
             <div className="flex items-center gap-2 rounded-lg bg-zinc-100 p-0.5 ring-1 ring-black/10">
               <span className="ml-2 shrink-0 font-medium sm:text-sm">$</span>
