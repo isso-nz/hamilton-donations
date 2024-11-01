@@ -9,18 +9,9 @@ import { formatAmountForDisplay } from '@/utils/stripe'
 import { Button, Field, Input, Label } from '@/components/ui'
 
 export function OneTimeDonationForm() {
-  const [input, setInput] = useState({
-    amount: MIN_AMOUNT,
-  })
+  const [amount, setAmount] = useState<number>(MIN_AMOUNT)
 
   const [isPending, startTransition] = useTransition()
-
-  const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setInput({
-      ...input,
-      [e.currentTarget.name]: e.currentTarget.value,
-    })
-  }
 
   async function submitAction(data: FormData): Promise<void> {
     startTransition(async () => {
@@ -45,8 +36,10 @@ export function OneTimeDonationForm() {
                 type="number"
                 id="amount"
                 name="amount"
-                value={input.amount}
-                onChange={handleInputChange}
+                value={amount}
+                onChange={(event) => setAmount(Number(event.currentTarget.value))}
+                inputMode="numeric"
+                pattern="[0-9]*"
                 min={MIN_AMOUNT}
                 max={MAX_AMOUNT}
                 placeholder="Amount to donate"
@@ -58,7 +51,7 @@ export function OneTimeDonationForm() {
 
         <div className="mt-6">
           <Button type="submit" variant="primary" className="w-full" disabled={isPending}>
-            {`Donate ${formatAmountForDisplay(input.amount, CURRENCY)}`}
+            {`Donate ${formatAmountForDisplay(amount, CURRENCY)}`}
           </Button>
         </div>
       </form>
