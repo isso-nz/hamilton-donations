@@ -92,6 +92,8 @@ export function RegularDonationForm() {
                 name="amount"
                 value={amount}
                 onChange={(event) => setAmount(Number(event.currentTarget.value))}
+                inputMode="numeric"
+                pattern="[0-9]*"
                 min={MIN_AMOUNT}
                 max={MAX_AMOUNT}
                 placeholder="Amount to donate"
