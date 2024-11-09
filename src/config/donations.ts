@@ -12,11 +12,7 @@ export const donationTypes = [
     recurring: true,
   },
   {
-    name: 'Dhotia Seva',
-    recurring: false,
-  },
-  {
-    name: 'Deepawali & Ankut Utsav 2024',
+    name: 'Tulsi Vivah',
     recurring: false,
   },
 ]
