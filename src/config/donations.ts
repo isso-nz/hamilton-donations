@@ -1,4 +1,9 @@
-export const donationTypes = [
+export interface DonationType {
+  name: string
+  recurring: boolean
+}
+
+export const donationTypes: DonationType[] = [
   {
     name: 'Thal',
     recurring: true,
