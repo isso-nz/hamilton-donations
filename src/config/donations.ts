@@ -5,10 +5,6 @@ export interface DonationType {
 
 export const donationTypes: DonationType[] = [
   {
-    name: 'Shiv Poojan',
-    recurring: false,
-  },
-  {
     name: 'Thal',
     recurring: true,
   },
