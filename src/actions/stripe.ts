@@ -17,17 +17,13 @@ export async function createCheckoutSession(data: FormData): Promise<{ url: stri
 
   const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create({
     mode: isSubscriptionType ? 'subscription' : 'payment',
-    ...(!isSubscriptionType && {
-      submit_type: 'donate',
-    }),
+    ...(!isSubscriptionType && { submit_type: 'donate' }),
     line_items: [
       {
         quantity: 1,
         price_data: {
           currency: CURRENCY,
-          product_data: {
-            name: (data.get('reason') as string) ?? 'Custom donation amount',
-          },
+          product_data: { name: (data.get('reason') as string) ?? 'Custom donation amount' },
           ...(isSubscriptionType && {
             recurring: {
               interval:
@@ -45,7 +41,5 @@ export async function createCheckoutSession(data: FormData): Promise<{ url: stri
     cancel_url: `${origin}/${form}`,
   })
 
-  return {
-    url: checkoutSession.url,
-  }
+  return { url: checkoutSession.url }
 }

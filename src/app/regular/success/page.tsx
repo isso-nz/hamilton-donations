@@ -17,16 +17,8 @@ const statusMap: {
     title: 'Payment successful',
     description: 'Thank you for your donation.',
   },
-  expired: {
-    title: '',
-    description: '',
-    variant: undefined,
-  },
-  open: {
-    title: '',
-    description: '',
-    variant: undefined,
-  },
+  expired: { title: '', description: '', variant: undefined },
+  open: { title: '', description: '', variant: undefined },
 }
 
 export default async function SuccessPage(props: {

@@ -19,7 +19,7 @@ export default function Home() {
             <Link href="/one-time">One-time donation</Link>
           </Button>
 
-          <p className="text-center text-xs font-semibold uppercase text-zinc-500">or</p>
+          <p className="text-center text-xs font-semibold text-zinc-500 uppercase">or</p>
 
           <Button variant="primary" className="w-full" asChild>
             <Link href="/regular">Regular donation</Link>

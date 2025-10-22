@@ -3,11 +3,9 @@ import { Metadata } from 'next'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 
-export const metadata: Metadata = {
-  title: 'Regular donation',
-}
+export const metadata: Metadata = { title: 'Regular donation' }
 
-export default function RegularDonationLayout({ children }: { children: React.ReactNode }) {
+export default function RegularDonationLayout({ children }: LayoutProps<'/regular'>) {
   return (
     <>
       <Header title="Regular donation" />
