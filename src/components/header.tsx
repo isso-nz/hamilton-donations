@@ -23,7 +23,7 @@ export function Header({ title = 'Jay Swaminarayan' }: HeaderProps) {
         />
       </div>
       <div className="mt-8 text-center">
-        <p className="text-sm font-medium uppercase tracking-widest text-zinc-500">ISSO Hamilton</p>
+        <p className="text-sm font-medium tracking-widest text-zinc-500 uppercase">ISSO Hamilton</p>
         <h1 className="text-2xl/9 font-bold tracking-tight text-zinc-900">{title}</h1>
       </div>
 
