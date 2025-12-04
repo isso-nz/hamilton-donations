@@ -4,11 +4,15 @@ import { useState, useTransition } from 'react'
 
 import { createCheckoutSession } from '@/actions/stripe'
 import { CURRENCY, MAX_AMOUNT, MIN_AMOUNT } from '@/config'
-import { formatAmountForDisplay } from '@/utils/stripe'
+import { formatAmountForDisplay } from '@/lib/utils'
 
-import { Button, Field, Input, Label } from '@/components/ui'
+import { Button } from '@/components/ui/button'
+import { Field } from '@/components/ui/field'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
 
 import { DonationType } from './donation-type'
+import { Amount } from './amount'
 
 export function OneTimeDonationForm() {
   const [amount, setAmount] = useState<number>(MIN_AMOUNT)
@@ -31,30 +35,17 @@ export function OneTimeDonationForm() {
           <DonationType form="one-time" />
 
           <Field>
-            <Label htmlFor="amount" required>
-              Amount
-            </Label>
-            <div className="flex items-center gap-2 rounded-lg bg-zinc-100 p-0.5 ring-1 ring-black/10">
-              <span className="ml-2 shrink-0 font-medium sm:text-sm">$</span>
-              <Input
-                type="number"
-                id="amount"
-                name="amount"
-                value={amount}
-                onChange={(event) => setAmount(Number(event.currentTarget.value))}
-                inputMode="numeric"
-                pattern="[0-9]*"
-                min={MIN_AMOUNT}
-                max={MAX_AMOUNT}
-                placeholder="Amount to donate"
-                required
-              />
-            </div>
+            <Amount
+              amount={amount}
+              onChange={(amount) => setAmount(amount)}
+              min={MIN_AMOUNT}
+              max={MAX_AMOUNT}
+            />
           </Field>
         </div>
 
         <div className="mt-6">
-          <Button type="submit" variant="primary" className="w-full" disabled={isPending}>
+          <Button type="submit" className="w-full" disabled={isPending}>
             {`Donate ${formatAmountForDisplay(amount, CURRENCY)}`}
           </Button>
         </div>
