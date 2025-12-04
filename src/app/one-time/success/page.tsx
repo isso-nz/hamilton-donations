@@ -2,23 +2,23 @@ import type Stripe from 'stripe'
 
 import { stripe } from '@/lib/stripe'
 
-import { Alert, AlertDescription, AlertIcon, AlertProps, AlertTitle } from '@/components/ui'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertCircle, CheckCircle } from '@/components/icons'
 
 const statusMap: {
   [key in Stripe.Checkout.Session.Status]: {
     title: string
     description: string
-    variant?: AlertProps['variant']
+    destructive: boolean
   }
 } = {
   complete: {
-    variant: 'success',
+    destructive: false,
     title: 'Payment successful',
     description: 'Thank you for your donation.',
   },
-  expired: { title: '', description: '', variant: undefined },
-  open: { title: '', description: '', variant: undefined },
+  expired: { title: '', description: '', destructive: true },
+  open: { title: '', description: '', destructive: false },
 }
 
 export default async function SuccessPage(props: {
@@ -36,15 +36,8 @@ export default async function SuccessPage(props: {
 
   return (
     <>
-      <Alert variant={status.variant ?? 'default'}>
-        {status.variant && (
-          <>
-            <AlertIcon>
-              {status.variant === 'success' && <CheckCircle />}
-              {status.variant === 'critical' && <AlertCircle />}
-            </AlertIcon>
-          </>
-        )}
+      <Alert variant={status.destructive ? 'destructive' : 'default'}>
+        {status.destructive ? <AlertCircle /> : <CheckCircle />}
         <AlertTitle>{status.title}</AlertTitle>
         <AlertDescription>{status.description}</AlertDescription>
       </Alert>

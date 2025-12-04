@@ -6,7 +6,7 @@ import { headers } from 'next/headers'
 
 import { CURRENCY } from '@/config'
 import { stripe } from '@/lib/stripe'
-import { formatAmountForStripe } from '@/utils/stripe'
+import { formatAmountForStripe } from '@/lib/utils'
 
 export async function createCheckoutSession(data: FormData): Promise<{ url: string | null }> {
   const headersList = await headers()

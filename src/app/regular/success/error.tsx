@@ -1,14 +1,12 @@
 'use client'
 
 import { AlertCircle } from '@/components/icons'
-import { Alert, AlertDescription, AlertIcon, AlertTitle } from '@/components/ui'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 export default function Error({ error }: { error: Error }) {
   return (
-    <Alert variant="critical">
-      <AlertIcon>
-        <AlertCircle />
-      </AlertIcon>
+    <Alert variant="destructive">
+      <AlertCircle />
       <AlertTitle>Error</AlertTitle>
       <AlertDescription>{error.message}</AlertDescription>
     </Alert>

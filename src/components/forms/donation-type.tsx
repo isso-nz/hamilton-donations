@@ -1,13 +1,13 @@
 import { donationTypes } from '@/config/donations'
+import { Field } from '@/components/ui/field'
+import { Label } from '@/components/ui/label'
 import {
-  Field,
-  Label,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui'
+} from '@/components/ui/select'
 
 export interface DonationTypeProps {
   form: 'one-time' | 'regular'
@@ -19,11 +19,9 @@ export function DonationType({ form }: DonationTypeProps) {
 
   return (
     <Field>
-      <Label htmlFor="reason" required>
-        Donation type
-      </Label>
+      <Label htmlFor="reason">Donation type</Label>
       <Select name="reason" required>
-        <SelectTrigger id="reason">
+        <SelectTrigger id="reason" className="w-full">
           <SelectValue placeholder="Type of donation you wish to make" />
         </SelectTrigger>
         <SelectContent>

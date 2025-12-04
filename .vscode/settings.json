@@ -9,13 +9,19 @@
     "**/node_modules": true,
     "**/.next": true
   },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "prettier.prettier-vscode",
     "editor.formatOnSave": true
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "prettier.prettier-vscode",
     "editor.formatOnSave": true
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
   },
   "explorer.fileNesting.enabled": true,
   "tailwindCSS.experimental.classRegex": [

@@ -7,5 +7,4 @@ export const donationTypes: DonationType[] = [
   { name: 'Thal', recurring: true },
   { name: 'General Seva', recurring: true },
   { name: 'Aarti', recurring: true },
-  { name: 'Deepawali and Ankut Utsav', recurring: false },
 ]

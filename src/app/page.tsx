@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui'
+import { Button } from '@/components/ui/button'
 
 export default function Home() {
   return (
@@ -15,13 +15,13 @@ export default function Home() {
           or event?
         </p>
         <div className="mt-6 space-y-4">
-          <Button className="w-full" asChild>
+          <Button variant="secondary" className="w-full" asChild>
             <Link href="/one-time">One-time donation</Link>
           </Button>
 
           <p className="text-center text-xs font-semibold text-zinc-500 uppercase">or</p>
 
-          <Button variant="primary" className="w-full" asChild>
+          <Button className="w-full" asChild>
             <Link href="/regular">Regular donation</Link>
           </Button>
         </div>
