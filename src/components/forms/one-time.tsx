@@ -13,9 +13,14 @@ import { Input } from '@/components/ui/input'
 
 import { DonationType } from './donation-type'
 import { Amount } from './amount'
+import { donationTypes } from '@/config/donations'
 
 export function OneTimeDonationForm() {
   const [amount, setAmount] = useState<number>(MIN_AMOUNT)
+  const [reason, setReason] = useState<string>('')
+
+  const selected = donationTypes.find((d) => d.name === reason)
+  const isFixed = !!selected?.fixedAmount
 
   const [isPending, startTransition] = useTransition()
 
@@ -32,7 +37,17 @@ export function OneTimeDonationForm() {
         <input type="hidden" name="form" value="one-time" />
         <input type="hidden" name="type" value="payment" />
         <div className="space-y-6 sm:space-y-4">
-          <DonationType form="one-time" />
+          <DonationType
+            form="one-time"
+            value={reason}
+            onValueChange={(value) => {
+              setReason(value)
+              const opt = donationTypes.find((o) => o.name === value)
+              if (opt?.fixedAmount) {
+                setAmount(opt.fixedAmount)
+              }
+            }}
+          />
 
           <Field>
             <Amount
@@ -40,6 +55,7 @@ export function OneTimeDonationForm() {
               onChange={(amount) => setAmount(amount)}
               min={MIN_AMOUNT}
               max={MAX_AMOUNT}
+              disabled={isFixed}
             />
           </Field>
         </div>

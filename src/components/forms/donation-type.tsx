@@ -11,16 +11,18 @@ import {
 
 export interface DonationTypeProps {
   form: 'one-time' | 'regular'
+  value?: string
+  onValueChange?: (value: string) => void
 }
 
-export function DonationType({ form }: DonationTypeProps) {
+export function DonationType({ form, value, onValueChange }: DonationTypeProps) {
   const types =
     form === 'regular' ? donationTypes.filter((option) => option.recurring) : donationTypes
 
   return (
     <Field>
       <Label htmlFor="reason">Donation type</Label>
-      <Select name="reason" required>
+      <Select name="reason" value={value} onValueChange={onValueChange} required>
         <SelectTrigger id="reason" className="w-full">
           <SelectValue placeholder="Type of donation you wish to make" />
         </SelectTrigger>

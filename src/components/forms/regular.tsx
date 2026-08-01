@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input'
 
 import { DonationType } from './donation-type'
 import { Amount } from './amount'
+import { donationTypes } from '@/config/donations'
 
 type DonationFrequency = 'day' | 'week' | 'month' | 'year'
 
@@ -45,6 +46,10 @@ const frequencyOptions: { [key in DonationFrequency]: { value: key; label: strin
 export function RegularDonationForm() {
   const [amount, setAmount] = useState<number>(MIN_AMOUNT)
   const [frequency, setFrequency] = useState<DonationFrequency>('month')
+  const [reason, setReason] = useState<string>('')
+
+  const selected = donationTypes.find((d) => d.name === reason)
+  const isFixed = !!selected?.fixedAmount
 
   const [isPending, startTransition] = useTransition()
 
@@ -61,7 +66,17 @@ export function RegularDonationForm() {
         <input type="hidden" name="form" value="regular" />
         <input type="hidden" name="type" value="subscription" />
         <div className="space-y-6 sm:space-y-4">
-          <DonationType form="regular" />
+          <DonationType
+            form="regular"
+            value={reason}
+            onValueChange={(value) => {
+              setReason(value)
+              const opt = donationTypes.find((o) => o.name === value)
+              if (opt?.fixedAmount) {
+                setAmount(opt.fixedAmount)
+              }
+            }}
+          />
 
           <Field>
             <Label htmlFor="frequency">Frequency</Label>
@@ -90,6 +105,7 @@ export function RegularDonationForm() {
               onChange={(amount) => setAmount(amount)}
               min={MIN_AMOUNT}
               max={MAX_AMOUNT}
+              disabled={isFixed}
             />
           </Field>
         </div>

@@ -9,9 +9,10 @@ interface AmountProps {
   onChange: (amount: number) => void
   min?: number
   max?: number
+  disabled?: boolean
 }
 
-export function Amount({ amount, onChange, min = 0, max }: AmountProps) {
+export function Amount({ amount, onChange, min = 0, max, disabled = false }: AmountProps) {
   return (
     <>
       <Label htmlFor="amount">Amount</Label>
@@ -32,6 +33,8 @@ export function Amount({ amount, onChange, min = 0, max }: AmountProps) {
           max={max}
           placeholder="Amount to donate"
           required
+          disabled={disabled}
+          readOnly={disabled}
         />
       </ButtonGroup>
     </>
