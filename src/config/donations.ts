@@ -8,5 +8,6 @@ export const donationTypes: DonationType[] = [
   { name: 'Thal', recurring: true },
   { name: 'General Seva', recurring: true },
   { name: 'Aarti', recurring: true },
-  { name: 'Shiv Poojan', recurring: true, fixedAmount: 25.0 },
+  // Shiv Poojan is a one-off fixed donation
+  { name: 'Shiv Poojan', recurring: false, fixedAmount: 25.0 },
 ]
