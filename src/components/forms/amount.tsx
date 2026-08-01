@@ -33,8 +33,8 @@ export function Amount({ amount, onChange, min = 0, max, disabled = false }: Amo
           max={max}
           placeholder="Amount to donate"
           required
-          disabled={disabled}
           readOnly={disabled}
+          aria-disabled={disabled}
         />
       </ButtonGroup>
     </>
